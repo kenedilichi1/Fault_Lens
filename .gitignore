@@ -1,0 +1,60 @@
+# ============================================================
+# FaultLens — Root .gitignore
+# Covers: Python backend, Node/Next.js frontend, tooling
+# ============================================================
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[oc]
+*.egg-info
+build/
+dist/
+wheels/
+
+# ── Virtual environments ──────────────────────────────────────
+.venv/
+venv/
+env/
+
+# ── Node / npm / yarn ─────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ── Next.js ──────────────────────────────────────────────────
+.next/
+out/
+
+# ── Build output ──────────────────────────────────────────────
+fault_lens_fe/build/
+
+# ── Testing & coverage ────────────────────────────────────────
+coverage/
+
+# ── Environment & secrets ─────────────────────────────────────
+.env*
+
+# ── TypeScript ────────────────────────────────────────────────
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Debug & log files ─────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ── Deployment ────────────────────────────────────────────────
+.vercel
+
+# ── Certificates ─────────────────────────────────────────────
+*.pem
+
+# ── OS generated ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
