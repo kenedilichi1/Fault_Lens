@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.db.dependency import get_db
+from app.api.router import router as api_router
+
 
 app = FastAPI(
     title=settings.app_name,
@@ -12,6 +14,10 @@ app = FastAPI(
     description="FaultLens is an AI-powered observability platform for developers and SREs."
 )
 
+app.include_router(
+    api_router,
+    prefix="/api",
+)
 @app.get('/')
 async def root():
     return {"status": "ok","application": settings.app_name}
