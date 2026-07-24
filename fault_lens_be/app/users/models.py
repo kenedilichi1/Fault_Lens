@@ -8,11 +8,12 @@ from sqlalchemy import (
     String,
     text,
 )
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base_class import BaseModel
+from app.db.mixins import TimestampMixin, SoftDeleteMixin
 
-class User(BaseModel):
+class User(BaseModel, TimestampMixin, SoftDeleteMixin):
     __tablename__ = "users"
 
     email: Mapped[str] = mapped_column(
@@ -52,6 +53,11 @@ class User(BaseModel):
         DateTime(timezone=True),
         nullable=True,
     )
+
+    sessions: Mapped[list["UserSession"]] = relationship(
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
 
     
 

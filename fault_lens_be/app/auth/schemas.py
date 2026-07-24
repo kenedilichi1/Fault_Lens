@@ -30,3 +30,23 @@ class LoginRequest(BaseModel):
         description="Password of the user.",
         examples=["password123"],
     )
+
+
+class TokenResponse(BaseModel):
+    access_token: str= Field(
+        description="JWT access token.",
+        examples=["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."],
+    )
+    refresh_token: str = Field(
+        description="JWT refresh token.",
+        examples=["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."],
+    )
+    token_type: str = Field(
+        description="Type of the token.",
+        examples=["Bearer"],
+    )
+
+    expires_in: int = Field(
+        description="Time in seconds until the access token expires.",
+        examples=[3600],
+    )
