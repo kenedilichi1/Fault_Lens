@@ -1,10 +1,11 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
-from app.auth.dependencies import get_auth_service
-from app.auth.schemas import LoginRequest, RegisterRequest, TokenResponse
+from app.auth.dependencies import get_auth_service, get_current_user
+from app.auth.schemas import LoginRequest, RegisterRequest, TokenResponse,RefreshTokenRequest
 from app.auth.service import AuthService
 from app.users.schemas import UserResponse
+from app.users.models import User
 
 auth_router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -27,3 +28,16 @@ async def login(
     auth_service: AuthServiceDep,
 ):
     return await auth_service.login(payload)
+
+@auth_router.post("/refresh", response_model=TokenResponse)
+async def refresh(
+    payload: RefreshTokenRequest,
+    auth_service: AuthServiceDep,
+):
+    return await auth_service.refresh(payload.refresh_token)
+
+@auth_router.get("/me")
+async def me(
+    current_user:Annotated[ User, Depends(get_current_user) ],
+) -> UserResponse:
+    return UserResponse.model_validate(current_user)

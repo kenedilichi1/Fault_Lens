@@ -1,3 +1,5 @@
+from uuid import UUID
+from typing_extensions import Literal
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -50,3 +52,15 @@ class TokenResponse(BaseModel):
         description="Time in seconds until the access token expires.",
         examples=[3600],
     )
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str= Field(
+        description="JWT refresh token.",
+        examples=["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."],
+    )
+
+class RefreshTokenPayload(BaseModel):
+    sub: UUID
+    sid: UUID
+    type: Literal["refresh"]
+    exp: int

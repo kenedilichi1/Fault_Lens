@@ -26,6 +26,17 @@ class UserSession(BaseModel, TimestampMixin):
         nullable=False,
         unique=True,
     )
+    refresh_token_id = mapped_column(
+        UUID(as_uuid=True),
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+    last_used_at = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
 
     refresh_token_expires_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
