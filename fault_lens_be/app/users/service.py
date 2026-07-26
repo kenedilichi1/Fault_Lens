@@ -23,3 +23,9 @@ class UserService:
     
     async def get_user_by_id(self, user_id: uuid.UUID) -> User | None:
         return await self.user_repository.get_by_id(user_id)
+
+    async def update(
+        self,
+        user: User,
+    ) -> User:
+        return await self.user_repository.update(user)

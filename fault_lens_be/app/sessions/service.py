@@ -96,3 +96,10 @@ class SessionService:
         session: UserSession,
     ) -> None:
         await self.session_repository.delete(session)
+
+    async def revoke(
+        self,
+        session: UserSession,
+    ) -> UserSession:
+        session.revoked_at = datetime.now(timezone.utc)
+        return await self.session_repository.update(session)

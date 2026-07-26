@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from os import getenv
 
 class Settings(BaseSettings):
     app_name: str = 'FaultLens API'
@@ -15,7 +16,7 @@ class Settings(BaseSettings):
 
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=getenv("ENV_FILE", ".env"),
         extra="ignore",
     )
 

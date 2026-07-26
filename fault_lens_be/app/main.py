@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import FastAPI, Depends
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,7 +25,7 @@ async def root():
     return {"status": "ok","application": settings.app_name}
 
 @app.get('/health/db')
-async def database_health(db:AsyncSession = Depends(get_db)):
+async def database_health(db: Annotated[AsyncSession, Depends(get_db)]):
     await db.execute(text("SELECT 1"))
 
     return {"status":"ok","database":"connected"}

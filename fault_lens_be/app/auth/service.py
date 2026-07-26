@@ -3,7 +3,7 @@ from uuid import UUID, uuid4
 
 from fastapi import HTTPException, status
 
-from app.auth.schemas import RegisterRequest, LoginRequest, TokenResponse
+from app.auth.schemas import RegisterRequest, LoginRequest, TokenResponse,ChangePasswordRequest
 from app.auth.security import hash_password, verify_password
 from app.users.schemas import UserCreate, UserResponse
 from app.users.service import UserService
@@ -128,7 +128,13 @@ class AuthService:
     self,
     refresh_token: str,
     ) -> TokenResponse:
-        refresh_token_id, secret = split_refresh_token(refresh_token)
+        try:
+            refresh_token_id, secret = split_refresh_token(refresh_token)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid refresh token.",
+            )
 
         session = await self.session_service.get_by_refresh_token_id(
         refresh_token_id
@@ -192,3 +198,79 @@ class AuthService:
             token_type="Bearer",
             expires_in=settings.access_token_expire_minutes * 60,
         )
+
+    async def logout(
+        self,
+        refresh_token: str,
+    ) -> None:
+        refresh_token_id, secret = split_refresh_token(refresh_token)
+
+        session = await self.session_service.get_by_refresh_token_id(
+            refresh_token_id
+        )
+
+        if session is None:
+            return
+
+        if not verify_refresh_token(
+            secret,
+            session.current_refresh_token_hash,
+        ):
+            return
+
+        
+        session.revoked_at = datetime.now(UTC)
+        await self.session_service.revoke(session)
+
+    async def logout_all(
+        self,
+        user_id: UUID,
+    ) -> None:
+        sessions = await self.session_service.get_by_user_id(user_id)
+
+        now = datetime.now(UTC)
+
+        for session in sessions:
+            session.revoked_at = now
+            await self.session_service.update(session)
+
+    async def change_password(
+        self,
+        user_id: UUID,
+        payload: ChangePasswordRequest,
+    ) -> None:
+        user = await self.user_service.get_user_by_id(user_id)
+
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found.",
+            )
+
+        if not verify_password(
+            payload.current_password,
+            user.password_hash,
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Current password is incorrect.",
+            )
+
+        if verify_password(
+            payload.new_password,
+            user.password_hash,
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="New password must be different.",
+            )
+
+        user.password_hash = hash_password(payload.new_password)
+        await self.user_service.update(user)
+        sessions = await self.session_service.get_by_user_id(user.id)
+
+        now = datetime.now(UTC)
+
+        for session in sessions:
+            session.revoked_at = now
+            await self.session_service.update(session)

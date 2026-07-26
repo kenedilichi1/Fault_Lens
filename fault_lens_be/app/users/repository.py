@@ -17,7 +17,7 @@ class UserRepository:
         return result.scalar_one_or_none()
 
     async def create(self, user: User) -> User:
-        self.db.add(user)
+        self.db.add(user)   
         await self.db.commit()
         await self.db.refresh(user)
         return user
@@ -27,3 +27,12 @@ class UserRepository:
             select(User).where(User.id == user_id)
         )
         return result.scalar_one_or_none()
+
+    async def update(
+        self,
+        user: User,
+    ) -> User:
+        self.db.add(user)
+        await self.db.commit()
+        await self.db.refresh(user)
+        return user

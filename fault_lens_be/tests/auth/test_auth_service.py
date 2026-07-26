@@ -4,11 +4,12 @@ from fastapi import HTTPException
 from app.auth.schemas import RegisterRequest
 from app.auth.service import AuthService
 from tests.fakes.fake_user_service import FakeUserService
+from tests.fakes.fake_session_service import FakeSessionService
 
 
 @pytest.mark.asyncio
 async def test_register_user():
-    service = AuthService(FakeUserService())
+    service = AuthService(user_service =FakeUserService(), session_service = FakeSessionService())
 
     payload = RegisterRequest(
         email="john@example.com",
@@ -24,7 +25,7 @@ async def test_register_user():
 
 @pytest.mark.asyncio
 async def test_register_duplicate_email():
-    service = AuthService(FakeUserService())
+    service = AuthService(user_service =FakeUserService(), session_service = FakeSessionService())
 
     payload = RegisterRequest(
         email="john@example.com",
