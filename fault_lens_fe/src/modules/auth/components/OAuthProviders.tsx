@@ -1,5 +1,6 @@
 "use client";
 
+import { AppButton } from "@/components/common";
 import { Button, Stack } from "@mui/material";
 
 function GoogleIcon() {
@@ -47,7 +48,7 @@ type OAuthProvidersProps = {
 export function OAuthProviders({ idPrefix = "oauth" }: OAuthProvidersProps) {
   return (
     <Stack spacing={1.5}>
-      <Button
+      <AppButton
         id={`${idPrefix}-google`}
         variant="outlined"
         fullWidth
@@ -58,9 +59,9 @@ export function OAuthProviders({ idPrefix = "oauth" }: OAuthProvidersProps) {
         sx={{ textTransform: "none", fontWeight: 500 }}
       >
         Continue with Google
-      </Button>
+      </AppButton>
 
-      <Button
+      <AppButton
         id={`${idPrefix}-github`}
         variant="outlined"
         fullWidth
@@ -71,7 +72,7 @@ export function OAuthProviders({ idPrefix = "oauth" }: OAuthProvidersProps) {
         sx={{ textTransform: "none", fontWeight: 500 }}
       >
         Continue with GitHub
-      </Button>
+      </AppButton>
     </Stack>
   );
 }

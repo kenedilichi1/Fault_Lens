@@ -3,6 +3,7 @@ import { authService } from "../services/auth.service";
 import { useAuthStore } from "../store/auth.store";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { appToast } from "@/lib/toast";
 
 export function useLogout() {
     const logout = useAuthStore((state) => state.logout);
@@ -14,10 +15,7 @@ export function useLogout() {
             logout();
             queryClient.clear();
             router.replace("/login");
-        },
-
-        onError: (error) => {
-            console.log("ERROR", error);
+            appToast.success("Logged out successfully")
         },
     });
 }

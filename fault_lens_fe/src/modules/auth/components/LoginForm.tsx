@@ -20,6 +20,7 @@ import axios from "axios";
 import { useLogin } from "../hooks/useLogin";
 import { loginSchema, type LoginFormData } from "../schemas/auth.schema";
 import { OAuthProviders } from "./OAuthProviders";
+import { AppButton } from "@/components/common";
 
 export function LoginForm() {
   const loginMutation = useLogin();
@@ -104,15 +105,14 @@ export function LoginForm() {
               helperText={errors.password?.message}
             />
 
-            <Button
+            <AppButton
               id="login-submit"
               type="submit"
-              variant="contained"
               loading={loginMutation.isPending}
               fullWidth
             >
               Login
-            </Button>
+            </AppButton>
           </Stack>
         </form>
 

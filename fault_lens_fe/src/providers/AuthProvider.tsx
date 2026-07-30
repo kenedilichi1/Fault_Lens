@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { useMe } from "@/modules/auth/hooks/useMe";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
-import { FullPageLoader } from "@/components/FullPageLoader";
+import { FullPageLoader } from "@/components/common/FullPageLoader";
 
 type Props = Readonly<{
   children: React.ReactNode;
