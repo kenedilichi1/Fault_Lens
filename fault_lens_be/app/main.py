@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.db.dependency import get_db
 from app.api.router import router as api_router
+from fastapi.middleware.cors import CORSMiddleware
+
 
 
 app = FastAPI(
@@ -14,6 +16,16 @@ app = FastAPI(
     debug=settings.debug,
     version="1.0.1",
     description="FaultLens is an AI-powered observability platform for developers and SREs."
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(
