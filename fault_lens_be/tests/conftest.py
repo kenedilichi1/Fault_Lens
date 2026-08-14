@@ -16,6 +16,8 @@ from app.db.base import Base
 from app.db.dependency import get_db
 from app.main import app
 from tests.container import postgres
+from app.auth.dependencies import get_current_user
+from app.users.models import User
 
 
 #
@@ -108,3 +110,23 @@ async def client(db_session: AsyncSession):
         yield client
 
     app.dependency_overrides.clear()
+
+@pytest_asyncio.fixture
+async def current_user(db_session: AsyncSession):
+    user = User(
+        email="owner@example.com",
+        full_name="Organization Owner",
+        password_hash="test-password-hash",
+    )
+
+    db_session.add(user)
+    await db_session.flush()
+
+    async def override_get_current_user():
+        return user
+
+    app.dependency_overrides[get_current_user] = override_get_current_user
+
+    yield user
+
+    app.dependency_overrides.pop(get_current_user, None)

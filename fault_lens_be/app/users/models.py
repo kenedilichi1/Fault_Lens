@@ -55,9 +55,17 @@ class User(BaseModel, TimestampMixin, SoftDeleteMixin):
     )
 
     sessions: Mapped[list["UserSession"]] = relationship(
-    back_populates="user",
-    cascade="all, delete-orphan",
-)
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
-    
+    owned_organizations: Mapped[list["Organization"]] = relationship(
+        back_populates="owner",
+        foreign_keys="Organization.owner_id",
+    )
+
+    organization_memberships: Mapped[list["OrganizationMember"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
