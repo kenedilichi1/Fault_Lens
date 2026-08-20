@@ -13,8 +13,9 @@ export function AppProvider({ children }: Props) {
     <ThemeProvider>
       <QueryProvider>
         <AuthProvider>
-          <ToastProvider />
-          {children}
+          <ToastProvider >
+            {children}
+          </ToastProvider>
         </AuthProvider>
       </QueryProvider>
     </ThemeProvider>

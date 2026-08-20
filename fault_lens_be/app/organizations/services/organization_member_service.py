@@ -1,3 +1,4 @@
+from app.organizations.schemas import OrganizationMembershipSummary
 import uuid
 
 from fastapi import HTTPException, status
@@ -8,6 +9,7 @@ from app.organizations.models import (
     OrganizationMemberStatus,
     OrganizationRole,
 )
+from app.organizations.schemas import MemberSummary
 from app.organizations.repositories import OrganizationMemberRepository
 from app.organizations.services.organization_policy import OrganizationPolicy
 from app.users.service import UserService
@@ -45,7 +47,7 @@ class OrganizationMemberService:
         email: str,
         role: OrganizationRole,
     ) -> OrganizationMember:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -94,17 +96,26 @@ class OrganizationMemberService:
     async def list_memberships_by_user(
         self,
         user_id: uuid.UUID,
-    ) -> list[OrganizationMember]:
-        return await self.organization_member_repository.list_by_user(
+    ) -> list[OrganizationMembershipSummary]:
+        return await self.organization_member_repository.list_organizations_for_user(
             user_id=user_id,
         )
 
+    async def get_member_summary(
+        self,
+        organization_id: uuid.UUID,
+    ) -> MemberSummary:
+        return await self.organization_member_repository.get_member_summary(
+            organization_id=organization_id,
+        )
+
+    
     async def list_members(
         self,
         organization_id: uuid.UUID,
         actor_id: uuid.UUID,
     ) -> list[OrganizationMember]:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -128,7 +139,7 @@ class OrganizationMemberService:
         user_id: uuid.UUID,
         actor_id: uuid.UUID,
     ) -> OrganizationMember:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -165,7 +176,7 @@ class OrganizationMemberService:
         actor_id: uuid.UUID,
         role: OrganizationRole,
     ) -> OrganizationMember:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -198,7 +209,7 @@ class OrganizationMemberService:
         user_id: uuid.UUID,
         actor_id: uuid.UUID,
     ) -> OrganizationMember:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -230,7 +241,7 @@ class OrganizationMemberService:
         user_id: uuid.UUID,
         actor_id: uuid.UUID,
     ) -> None:
-        actor_membership = await self._get_active_membership(
+        actor_membership = await self.get_active_membership(
             organization_id=organization_id,
             user_id=actor_id,
         )
@@ -254,7 +265,7 @@ class OrganizationMemberService:
 
         await self.organization_member_repository.delete(member)
 
-    async def _get_active_membership(
+    async def get_active_membership(
         self,
         organization_id: uuid.UUID,
         user_id: uuid.UUID,

@@ -22,7 +22,7 @@ export function AppShell({ children }: Props) {
                     flexDirection: "column",
                 }}
             >
-                <Header />
+                {/* <Header /> */}
                 <Box
                     sx={{
                         flexGrow: 1,

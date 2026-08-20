@@ -1,8 +1,6 @@
-import LoadingButton, {
-    LoadingButtonProps,
-} from "@mui/lab/LoadingButton";
+import Button, { ButtonProps } from "@mui/material/Button";
 
-type AppButtonProps = LoadingButtonProps;
+type AppButtonProps = ButtonProps;
 
 export function AppButton({
     children,
@@ -11,12 +9,12 @@ export function AppButton({
     ...props
 }: AppButtonProps) {
     return (
-        <LoadingButton
+        <Button
             variant={variant}
             size={size}
             {...props}
         >
             {children}
-        </LoadingButton>
+        </Button>
     );
 }

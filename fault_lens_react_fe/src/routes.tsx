@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { RootRedirect } from "@/modules/auth/guards/RootRedirect";
 
@@ -6,9 +6,15 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { GlobalErrorBoundary } from "@/components/common/GlobalErrorBoundary";
 
-import LoginPage from "@/pages/login";
-import RegisterPage from "@/pages/register";
+import LoginPage from "@/modules/auth/pages/Login";
+import RegisterPage from "@/modules/auth/pages/Register";
 import DashboardPage from "@/pages/dashboard";
+import OrganizationsPage from "./modules/organization/pages/OrganizationPage";
+import OrganizationDetailsPage from "./modules/organization/pages/OrganizationDetailsPage";
+import OrganizationOverviewPage from "./modules/organization/pages/OrganizationOverviewPage";
+import CreateOrganizationPage from "./modules/organization/pages/CreateOrganizationPage";
+import OrganizationList from "./modules/organization/components/OrganizationList";
+import OrganizationMembersPage from "./modules/organization/pages/OrganizationMemberPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +44,45 @@ export const router = createBrowserRouter([
             path: "dashboard",
             element: <DashboardPage />,
           },
+          {
+            path: "organizations",
+            element: <OrganizationsPage />,
+            children: [
+              {
+                index: true,
+                element: <OrganizationList />
+              },
+              {
+                path: "new",
+                element: <CreateOrganizationPage />,
+              },
+            ],
+          },
+          {
+            path: "organizations/:organizationId",
+            element: <OrganizationDetailsPage />,
+            children: [
+              {
+                index: true,
+                element: (
+                  <Navigate
+                    to="overview"
+                    replace
+                  />
+                ),
+              },
+
+              {
+                path: "overview",
+                element: <OrganizationOverviewPage />,
+              },
+
+              {
+                path: "members",
+                element: <OrganizationMembersPage />,
+              },
+            ]
+          }
         ],
       },
     ],

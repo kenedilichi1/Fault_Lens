@@ -1,3 +1,5 @@
+from app.organizations.models import OrganizationRole
+from app.organizations.models import OrganizationMemberStatus
 import uuid
 from datetime import datetime, timezone
 
@@ -11,23 +13,19 @@ class OrganizationCreate(BaseModel):
         min_length=1,
         max_length=100,
     )
-    slug: str = Field(
-        min_length=1,
-        max_length=100,
-    )
     timezone: str = Field(
         default="UTC",
         max_length=50,
     )
+    plan: str | None = Field(
+        default="free",
+        max_length=20,
+    )
+    
 
 
 class OrganizationUpdate(BaseModel):
     name: str | None = Field(
-        default=None,
-        min_length=1,
-        max_length=100,
-    )
-    slug: str | None = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -87,3 +85,15 @@ class OrganizationResponse(BaseModel):
     updated_at: datetime=Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class MemberSummary(BaseModel):
+    total_members:int
+    owners:int
+    admins:int
+    members:int
+    viewers:int
+
+class GetOrganizationResponse(OrganizationResponse):
+    member_summary: MemberSummary = Field(default_factory=MemberSummary)
+    role: OrganizationRole | None=Field(default_factory=None)
+    status: OrganizationMemberStatus | None=Field(default_factory=None)
+    

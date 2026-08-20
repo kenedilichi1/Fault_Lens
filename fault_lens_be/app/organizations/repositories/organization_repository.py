@@ -25,7 +25,11 @@ class OrganizationRepository:
         organization_id: uuid.UUID,
     ) -> Organization | None:
         result = await self.db.execute(
-            select(Organization).where(
+            select(Organization)
+            .options(
+                selectinload(Organization.owner)
+            )
+            .where(
                 Organization.id == organization_id
             )
         )

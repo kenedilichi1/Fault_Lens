@@ -15,10 +15,12 @@ from app.organizations.repositories.organization_member_repository import (
 from app.organizations.schemas import (
     OrganizationCreate,
     OrganizationUpdate,
+    GetOrganizationResponse,
+    OrganizationResponse
 )
 from .organization_policy import OrganizationPolicy
 from .organization_member_service import OrganizationMemberService
-
+from app.utils import slugify
 # Common error messages
 ORGANIZATION_NOT_FOUND = "Organization not found."
 
@@ -38,8 +40,10 @@ class OrganizationService:
         owner_id: uuid.UUID,
         data: OrganizationCreate,
     ) -> Organization:
+
+        slug = slugify(data.name)
         existing = await self.organization_repository.get_by_slug(
-            data.slug
+            slug
         )
 
         if existing is not None:
@@ -51,8 +55,9 @@ class OrganizationService:
         organization = Organization(
             owner_id=owner_id,
             name=data.name,
-            slug=data.slug,
+            slug=slug,
             timezone=data.timezone,
+            plan=data.plan or "free",
         )
 
         await self.organization_repository.create(organization)
@@ -63,14 +68,13 @@ class OrganizationService:
         )
 
         await self.db.commit() 
-        await self.db.refresh(organization)
-        return organization
+        return await self.organization_repository.get_by_id(organization.id)
 
     async def get_by_id(
         self,
         organization_id: uuid.UUID,
         user_id: uuid.UUID,
-    ) -> Organization:
+    ) -> GetOrganizationResponse:
         organization = await self.organization_repository.get_by_id(
             organization_id
         )
@@ -81,18 +85,34 @@ class OrganizationService:
                 detail=ORGANIZATION_NOT_FOUND,
             )
 
-        membership = await self.organization_member_service._get_active_membership(
+        membership = await self.organization_member_service.get_active_membership(
             organization_id=organization_id,
             user_id=user_id,
         )
+
+        if membership is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You are not a member of this organization.",
+            )
 
         if not OrganizationPolicy.can_view(role=membership.role, status=membership.status):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="You do not have permission to view this organization.",
             )
-
-        return organization
+        
+        member_summary = await self.organization_member_service.get_member_summary(
+            organization_id=organization_id,
+        )
+        
+        org_data = OrganizationResponse.model_validate(organization).model_dump()
+        return GetOrganizationResponse(
+            **org_data,
+            member_summary=member_summary,
+            role = membership.role.value,
+            status=membership.status.value,
+        )
 
     async def update(
         self,
@@ -110,7 +130,7 @@ class OrganizationService:
                 detail=ORGANIZATION_NOT_FOUND,
             )
 
-        membership = await self.organization_member_service._get_active_membership(
+        membership = await self.organization_member_service.get_active_membership(
             organization_id=organization_id,
             user_id=user_id,
         )
@@ -124,9 +144,10 @@ class OrganizationService:
 
         update_data = data.model_dump( exclude_unset=True, ) 
 
-        if "slug" in update_data:
+        if "name" in update_data:
+            slug = slugify(update_data["name"])
             existing = await self.organization_repository.get_by_slug(
-                update_data["slug"]
+                slug
             )
             if existing is not None and existing.id != organization_id:
                 raise HTTPException(
@@ -159,7 +180,7 @@ class OrganizationService:
                 detail=ORGANIZATION_NOT_FOUND,
             )
 
-        membership = await self.organization_member_service._get_active_membership(
+        membership = await self.organization_member_service.get_active_membership(
             organization_id=organization_id,
             user_id=user_id,
         )

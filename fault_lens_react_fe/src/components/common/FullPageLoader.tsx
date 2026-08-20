@@ -4,12 +4,14 @@ export function FullPageLoader() {
   return (
     <Box
       sx={{
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        maxWidth: "100vw",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         bgcolor: "background.default",
+        overflow: "hidden",
       }}
     >
       <CircularProgress />

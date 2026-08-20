@@ -6,27 +6,9 @@ import { persist } from "zustand/middleware";
 // as httpOnly cookies, at which point `refreshToken` should be removed from this store entirely.
 // Until then, this is a known security risk.
 
-import type { User, AuthResponse } from "../types/auth.types";
+import type {AuthState } from "../types/auth.types";
 
-type AuthStatus =
-  | "loading"
-  | "authenticated"
-  | "unauthenticated";
 
-type AuthState = {
-  status: AuthStatus;
-  user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
-
-  _hasHydrated: boolean;
-
-  setUser: (user: User | null) => void;
-  logout: () => void;
-  setTokens: (data: AuthResponse) => void;
-  setStatus: (status: AuthStatus) => void;
-  setHasHydrated: (value: boolean) => void;
-};
 
 export const useAuthStore = create<AuthState>()(
   persist(

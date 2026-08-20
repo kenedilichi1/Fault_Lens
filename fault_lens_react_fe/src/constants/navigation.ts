@@ -5,6 +5,7 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import BusinessIcon from '@mui/icons-material/Business';
 
 export const navigation = [
     {
@@ -16,6 +17,11 @@ export const navigation = [
         label: "Projects",
         href: "/projects",
         icon: FolderOutlinedIcon,
+    },
+    {
+        label: "Organizations",
+        href: "/organizations",
+        icon: BusinessIcon,
     },
     {
         label: "Logs",
