@@ -51,7 +51,6 @@ async def test_create_organization(db_session):
 
     data = OrganizationCreate(
         name="Acme Inc",
-        slug="acme-inc",
         timezone="UTC",
     )
 
@@ -117,7 +116,6 @@ async def test_create_organization_rejects_duplicate_slug(
 
     data = OrganizationCreate(
         name="Acme Inc",
-        slug="acme-inc",
         timezone="UTC",
     )
 

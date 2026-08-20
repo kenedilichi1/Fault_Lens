@@ -17,7 +17,6 @@ async def test_create_organization(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -40,7 +39,6 @@ async def test_create_organization_duplicate_slug(
 ):
     payload = {
         "name": "Acme Technologies",
-        "slug": "acme-technologies",
         "timezone": "UTC",
     }
 
@@ -54,8 +52,7 @@ async def test_create_organization_duplicate_slug(
     second_response = await client.post(
         "/api/v1/organizations",
         json={
-            "name": "Another Organization",
-            "slug": "acme-technologies",
+            "name": "Acme Technologies",
             "timezone": "UTC",
         },
     )
@@ -75,7 +72,6 @@ async def test_list_organizations(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -91,11 +87,10 @@ async def test_list_organizations(
     data = response.json()
 
     assert len(data) == 1
-    assert data[0]["organization"]["name"] == "Acme Technologies"
-    assert data[0]["organization"]["slug"] == "acme-technologies"
-    assert data[0]["user_id"] == str(current_user.id)
+    assert data[0]["organization_name"] == "Acme Technologies"
+    assert data[0]["slug"] == "acme-technologies"
     assert data[0]["role"] == "OWNER"
-    assert data[0]["status"] == "ACTIVE"
+    assert data[0]["member_count"] == 1
 
 
 @pytest.mark.asyncio
@@ -107,7 +102,6 @@ async def test_get_organization(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -140,7 +134,6 @@ async def test_get_organization_non_member_forbidden(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -197,7 +190,6 @@ async def test_update_organization(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -234,7 +226,6 @@ async def test_update_organization_non_member_forbidden(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )
@@ -276,7 +267,6 @@ async def test_delete_organization(
         "/api/v1/organizations",
         json={
             "name": "Acme Technologies",
-            "slug": "acme-technologies",
             "timezone": "UTC",
         },
     )

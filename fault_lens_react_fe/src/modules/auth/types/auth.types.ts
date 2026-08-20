@@ -39,3 +39,22 @@ export type ApiError = {
   detail: string;
 };
 
+export type AuthStatus =
+  | "loading"
+  | "authenticated"
+  | "unauthenticated";
+
+export type AuthState = {
+  status: AuthStatus;
+  user: User | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+
+  _hasHydrated: boolean;
+
+  setUser: (user: User | null) => void;
+  logout: () => void;
+  setTokens: (data: AuthResponse) => void;
+  setStatus: (status: AuthStatus) => void;
+  setHasHydrated: (value: boolean) => void;
+};

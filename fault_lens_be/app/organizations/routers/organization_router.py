@@ -14,6 +14,7 @@ from app.organizations.schemas import (
     OrganizationMembershipResponse,
     OrganizationResponse,
     OrganizationUpdate,
+    GetOrganizationResponse,
 )
 
 from app.organizations.services import (
@@ -68,7 +69,7 @@ async def get_organization(
     organization_id: UUID,
     current_user: Annotated[User, Depends(get_current_user)],
     service: Annotated[OrganizationService, Depends(get_organization_service)],
-) -> OrganizationResponse:
+) -> GetOrganizationResponse:
     organization = await service.get_by_id(
         organization_id=organization_id,
         user_id=current_user.id,

@@ -19,10 +19,10 @@ import { navigation } from "@/constants/navigation";
 import { SIDEBAR_WIDTH } from "@/constants/layout";
 
 type SidebarProps = {
-    mobileOpen: boolean;
-    desktopOpen: boolean;
-    onClose: () => void;
-    onDesktopToggle: () => void;
+    readonly mobileOpen: boolean;
+    readonly desktopOpen: boolean;
+    readonly onClose: () => void;
+    readonly onDesktopToggle: () => void;
 };
 
 export function Sidebar({ mobileOpen, desktopOpen, onClose, onDesktopToggle }: SidebarProps) {

@@ -70,7 +70,6 @@ async def test_add_member(db_session):
         owner_id=actor.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -140,7 +139,6 @@ async def test_add_member_rejects_non_member_actor(
         owner_id=actor.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -202,7 +200,6 @@ async def test_add_member_rejects_duplicate_membership(
         owner_id=actor.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -265,7 +262,6 @@ async def test_list_memberships_by_user(
         owner_id=user.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -342,7 +338,6 @@ async def test_list_members(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -410,7 +405,6 @@ async def test_member_can_list_members(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -478,7 +472,6 @@ async def test_suspended_member_cannot_list_members(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -554,7 +547,6 @@ async def test_get_member(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -614,7 +606,6 @@ async def test_get_member_not_found(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -673,7 +664,6 @@ async def test_owner_can_change_member_role(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -746,7 +736,6 @@ async def test_admin_cannot_change_admin_role(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -828,7 +817,6 @@ async def test_admin_can_change_member_role(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -906,7 +894,6 @@ async def test_admin_cannot_assign_owner_role(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -980,7 +967,6 @@ async def test_owner_cannot_be_changed_through_role_change(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1044,7 +1030,6 @@ async def test_owner_can_suspend_admin(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1114,7 +1099,6 @@ async def test_admin_cannot_suspend_admin(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1187,7 +1171,6 @@ async def test_owner_cannot_be_suspended(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1253,7 +1236,6 @@ async def test_owner_can_remove_member(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1328,7 +1310,6 @@ async def test_admin_can_remove_member(
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1404,7 +1385,6 @@ async def test_admin_cannot_remove_admin(db_session):
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1472,7 +1452,6 @@ async def test_owner_cannot_be_removed(db_session):
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1533,7 +1512,6 @@ async def test_non_member_cannot_list_members(db_session):
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )
@@ -1581,7 +1559,6 @@ async def test_add_member_rejects_unknown_email(db_session):
         owner_id=owner.id,
         data=OrganizationCreate(
             name="Acme Technologies",
-            slug="acme-technologies",
             timezone="UTC",
         ),
     )

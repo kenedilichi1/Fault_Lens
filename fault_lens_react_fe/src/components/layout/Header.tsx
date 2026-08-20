@@ -42,7 +42,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                        Dashboard
+                        
                     </Typography>
                 </Box>
 
