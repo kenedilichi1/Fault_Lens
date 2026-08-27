@@ -8,13 +8,13 @@ import { GlobalErrorBoundary } from "@/components/common/GlobalErrorBoundary";
 
 import LoginPage from "@/modules/auth/pages/Login";
 import RegisterPage from "@/modules/auth/pages/Register";
-import DashboardPage from "@/pages/dashboard";
 import OrganizationsPage from "./modules/organization/pages/OrganizationPage";
 import OrganizationDetailsPage from "./modules/organization/pages/OrganizationDetailsPage";
 import OrganizationOverviewPage from "./modules/organization/pages/OrganizationOverviewPage";
 import CreateOrganizationPage from "./modules/organization/pages/CreateOrganizationPage";
 import OrganizationList from "./modules/organization/components/OrganizationList";
 import OrganizationMembersPage from "./modules/organization/pages/OrganizationMemberPage";
+import OverviewPage from "@/modules/overview/pages/OverviewPage";
 
 export const router = createBrowserRouter([
   {
@@ -41,8 +41,8 @@ export const router = createBrowserRouter([
         element: <ProtectedLayout />,
         children: [
           {
-            path: "dashboard",
-            element: <DashboardPage />,
+            path: "overview",
+            element: <OverviewPage />,
           },
           {
             path: "organizations",

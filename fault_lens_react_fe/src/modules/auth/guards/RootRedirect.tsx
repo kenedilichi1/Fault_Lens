@@ -13,7 +13,7 @@ export function RootRedirect() {
   if (!hasHydrated) return null; // Wait for localStorage rehydration
 
   if (accessToken) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/overview" replace />;
   }
 
   return <Navigate to="/login" replace />;

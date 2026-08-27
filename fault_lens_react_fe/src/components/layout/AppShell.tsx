@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 import { Header } from "./Header";
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./sidebar/Sidebar";
 import { SIDEBAR_WIDTH } from "@/constants/layout";
 
 type Props = Readonly<{
