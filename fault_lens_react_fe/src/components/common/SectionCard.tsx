@@ -1,10 +1,24 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Divider, Icon, Typography, keyframes } from "@mui/material";
+import CircleIcon from '@mui/icons-material/Circle';
+
+const blink = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 type SectionCardProps = {
-    title: string;
-    subtitle?: string;
-    actions?: React.ReactNode;
-    children: React.ReactNode;
+    readonly title: string;
+    readonly subtitle?: string;
+    readonly actions?: React.ReactNode;
+    readonly children: React.ReactNode;
+    readonly isLive?: boolean;
 };
 
 export function SectionCard({
@@ -12,6 +26,7 @@ export function SectionCard({
     subtitle,
     actions,
     children,
+    isLive,
 }: SectionCardProps) {
     return (
         <Card
@@ -29,11 +44,11 @@ export function SectionCard({
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        mb: 3
+                        mb: 1
                     }}
                 >
                     <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
                             {title}
                         </Typography>
 
@@ -47,8 +62,37 @@ export function SectionCard({
                         )}
                     </Box>
 
-                    {actions}
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                        {isLive && (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                }}
+                            >
+                                <Icon
+                                    color="success"
+                                    sx={{
+                                        animation: `${blink} 1.5s infinite ease-in-out`,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <CircleIcon sx={{ fontSize: "0.625rem" }} />
+                                </Icon>
+                                <Typography variant="body2" color="success.main" sx={{ fontWeight: 500 }}>
+                                    Live
+                                </Typography>
+                            </Box>
+                        )}
+
+                        {actions}
+                    </Box>
                 </Box>
+                <Divider />
+
 
                 {children}
             </CardContent>

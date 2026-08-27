@@ -4,18 +4,21 @@ export const typography: TypographyVariantsOptions = {
   fontFamily: '"Hanken Grotesk", sans-serif',
 
   h1: {
+    fontSize: "1.5rem",
     fontFamily: '"Hanken Grotesk", sans-serif',
     fontWeight: 600,
     letterSpacing: "-0.025em",
   },
 
   h2: {
+    fontSize: "1.25rem",
     fontFamily: '"Hanken Grotesk", sans-serif',
     fontWeight: 600,
     letterSpacing: "-0.02em",
   },
 
   h3: {
+    fontSize: "1.125rem",
     fontFamily: '"Hanken Grotesk", sans-serif',
     fontWeight: 600,
     letterSpacing: "-0.015em",
@@ -38,13 +41,13 @@ export const typography: TypographyVariantsOptions = {
 
   body1: {
     fontFamily: '"Hanken Grotesk", sans-serif',
-    fontSize: "0.95rem",
+    fontSize: "0.875rem",
     lineHeight: 1.6,
   },
 
   body2: {
     fontFamily: '"Hanken Grotesk", sans-serif',
-    fontSize: "0.875rem",
+    fontSize: "0.8125rem",
     lineHeight: 1.5,
   },
 
